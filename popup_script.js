@@ -17,3 +17,8 @@ document.getElementById('youtube-tab-id').addEventListener('click', () => {
   chrome.runtime.sendMessage({ actionType: 'setYoutubeTabAndWindowID' });
   console.log('Set Youtube tab ID.');
 });
+
+document.getElementById('open-sync-tabs').addEventListener('click', () => {
+  chrome.runtime.sendMessage({ actionType: 'openSyncTabs' });
+  console.log('Open sync tabs.');
+});

@@ -1,43 +1,73 @@
 console.log('Fresh background.js');
 
-// async function setYoutubeTabAndWindowID(message) {
-//   const [tab] = await chrome.tabs.query({
-//     url: '*://*/*syncyoutubesearch*'
-//   });
-//   const win = await chrome.windows.getCurrent();
+async function openSyncTabs() {
+  let tab;
 
-//   chrome.storage.local.set({
-//     youtubeTabID: tab.id
-//   });
-//   chrome.storage.local.set({
-//     youtubeWinID: win.id
-//   });
-//   console.log('Youtube tab ID is:', tab.id);
-//   console.log('Youtube window ID is:', win.id);
-//   console.log('Youtube tab', tab);
-// }
+  tab = await chrome.tabs.create({url: 'https://www.google.com/search?q=syncyoutubesearch'})
+  chrome.storage.local.set({
+    youtubeTabID: tab.id
+  });
 
-// async function setGoogleTabID(message) {
-//   const [tab] = await chrome.tabs.query({
-//     url: '*://*/*syncgooglesearch*'
-//   });
-//   chrome.storage.local.set({
-//     googleTabID: tab.id
-//   });
-//   console.log('Google tab ID is:', tab.id);
-//   console.log('Google tab', tab);
-// }
+  tab = await chrome.tabs.create({url: 'https://www.google.com/search?q=syncwikipediasearch'})
+  chrome.storage.local.set({
+    wikipediaTabID: tab.id
+  });
 
-// async function setWikipediaTabID() {
-//   const [tab] = await chrome.tabs.query({
-//     url: '*://*/*syncwikipediasearch*'
-//   });
-//   chrome.storage.local.set({
-//     wikipediaTabID: tab.id
-//   });
-//   console.log('Wikipedia tab ID is:', tab.id);
-//   console.log('Wikipedia tab', tab);
-// }
+  tab = await chrome.tabs.create({url: 'https://www.google.com/search?q=syncgooglesearch'})
+  chrome.storage.local.set({
+    googleTabID: tab.id
+  });
+}
+
+async function setRoamTabID(message) {
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
+  });
+  chrome.storage.local.set({
+    roamTabID: tab.id
+  });
+  console.log('Roam tab ID is:', tab.id);
+}
+
+async function setYoutubeTabAndWindowID(message) {
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
+  });
+  const win = await chrome.windows.getCurrent();
+
+  chrome.storage.local.set({
+    youtubeTabID: tab.id
+  });
+  chrome.storage.local.set({
+    youtubeWinID: win.id
+  });
+  console.log('Youtube tab ID is:', tab.id);
+  console.log('Youtube window ID is:', win.id);
+}
+
+async function setGoogleTabID(message) {
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
+  });
+  chrome.storage.local.set({
+    googleTabID: tab.id
+  });
+  console.log('Google tab ID is:', tab.id);
+}
+
+async function setWikipediaTabID(message) {
+  let [tab] = await chrome.tabs.query({
+    active: true,
+    lastFocusedWindow: true
+  });
+  chrome.storage.local.set({
+    wikipediaTabID: tab.id
+  });
+  console.log('Wikipedia tab ID is:', tab.id);
+}
 
 async function fetchWikipedia(message) {
   let fetchUrl;
@@ -67,17 +97,6 @@ async function fetchWikipedia(message) {
 async function closeCurrentYoutubeTab(message) {
   // TODO:
   console.log('Work in progress');
-}
-
-async function setRoamTabID(message) {
-  let [tab] = await chrome.tabs.query({
-    active: true,
-    lastFocusedWindow: true
-  });
-  chrome.storage.local.set({
-    roamTabID: tab.id
-  });
-  console.log('Roam tab ID is:', tab.id);
 }
 
 async function searchWikipedia(message) {
@@ -255,6 +274,8 @@ async function handleMessage(message, sender, sendResponse) {
     searchYoutubeNewTab(message);
   } else if (message.actionType === 'searchRoam') {
     searchRoam(message);
+  } else if (message.actionType === 'openSyncTabs') {
+    openSyncTabs();
   } else if (message.actionType === 'playFirstYoutube') {
     playFirstYoutube(message);
   } else if (message.actionType === 'searchGoogle') {
