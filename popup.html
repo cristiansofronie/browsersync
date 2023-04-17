@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script defer src='popup_script.js'></script>
+    <script defer src="popup_script.js"></script>
   </head>
   <body>
-    <button id='open-sync-tabs'>Open sync tabs</button>
-    <button id='roam-tab-id'>Set Roam tab ID</button>
-    <button id='wikipedia-tab-id'>Set Wikipedia tab ID</button>
-    <button id='google-tab-id'>Set Google tab ID</button>
-    <button id='youtube-tab-id'>Set Youtube tab ID</button>
+    <form>
+      <label for="searchTerm">Search Term:</label>
+      <input type="text" id="searchTerm" name="searchTerm" />
+      <input type="submit" value="Delete" onclick="deleteBookmarks()" />
+    </form>
+
+    <button id="search-window-id">Set ID for searching window</button>
+    <button id="open-sync-tabs">Open sync tabs</button>
+    <button id="roam-tab-id">Set Roam tab ID</button>
+    <button id="wikipedia-tab-id">Set Wikipedia tab ID</button>
+    <button id="google-tab-id">Set Google tab ID</button>
+    <button id="youtube-tab-id">Set Youtube tab ID</button>
+    <button id="search-window-id-based-on-tab-name">
+      Set ID for searching window
+    </button>
   </body>
 </html>
